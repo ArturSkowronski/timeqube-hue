@@ -1,45 +1,21 @@
-var hue = require("node-hue-api"),
-    HueApi = hue.HueApi,
-    lightState = hue.lightState;
+const { HueController } = require('./src/hueController');
 
-var displayResult = function(result) {
-    console.log("green" + green + ":red" + red);
-};
+const hueController = new HueController('', '');
 
-var host = "192.168.1.55",
-    username = "FILL",
-    api;
-
-api = new HueApi(host, username);
-
-let brightness = 100;
-let green = 255;
 let red = 0;
+let green = 255;
 
-const intervalObj = setInterval(setLight, 1000);
+const intervalObj = setInterval(() => {
+  if (red === 255) {
+    green -= 5;
+  } else {
+    red += 5;
+  }
 
-function setLight(arg) {
-    if(red == 255){
-        green=green - 5
-    } else {
-        red=red + 5
-    }    
+  hueController.setLight(red, green);
 
-    const state = lightState
-        .create()
-        .on()
-        .ct(500)	
-        .rgb(255, 255, 255)
-        .brightness(100);
-
-    api.setLightState(3, state)
-        .then(displayResult)
-        .done();
-    brightness--;
-
-    if (!green) {
-        clearInterval(intervalObj);
-        console.log("I'm off");
-    }
-}
-    
+  if (!green) {
+    clearInterval(intervalObj);
+    console.log("I'm off");
+  }
+}, 1000);
