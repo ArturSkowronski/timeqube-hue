@@ -5,16 +5,13 @@ exports.HueController = class HueController {
     this.api = new HueApi(host, username);
   }
 
-  setLight(red, green) {
+  setLight(color) {
     const state = lightState
       .create()
-      .on()
-      .ct(500)
-      .rgb(red, green, 255)
-      .brightness(100);
+      .hsl(color, 100, 50);
 
     this.api.setLightState(3, state)
-      .then(() => console.log(`Light set to r:${red} g:${green}`))
+      .then(() => console.log(`Light set to r:${color}`))
       .done();
   }
 };

@@ -2,19 +2,14 @@ const { HueController } = require('./src/hueController');
 
 const hueController = new HueController('', '');
 
-let red = 0;
-let green = 255;
+let counter = 0.0;
 
 const intervalObj = setInterval(() => {
-  if (red === 255) {
-    green -= 5;
-  } else {
-    red += 5;
-  }
+  const color = (1 - counter) * 120;
 
-  hueController.setLight(red, green);
-
-  if (!green) {
+  hueController.setLight(color);
+  counter += 0.01;
+  if (counter > 1) {
     clearInterval(intervalObj);
     console.log("I'm off");
   }
