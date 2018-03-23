@@ -1,16 +1,7 @@
 const { HueController } = require('./src/hueController');
+const { LightScheduler } = require('./src/lightScheduler');
 
 const hueController = new HueController('', '');
+const lightScheduler = new LightScheduler(hueController);
 
-let counter = 0.0;
-
-const intervalObj = setInterval(() => {
-  const color = (1 - counter) * 120;
-
-  hueController.setLight(color);
-  counter += 0.01;
-  if (counter > 1) {
-    clearInterval(intervalObj);
-    console.log("I'm off");
-  }
-}, 1000);
+lightScheduler.schedule(25);
