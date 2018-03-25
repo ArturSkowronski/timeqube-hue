@@ -16,6 +16,6 @@ exports.LightScheduler = class LightScheduler {
         clearInterval(intervalObj);
         console.log("I'm off");
       }
-    }, time * 60 * 1000);
+    }, 1000);
   }
 };

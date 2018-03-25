@@ -1,7 +1,5 @@
-const { HueController } = require('./src/hueController');
-const { LightScheduler } = require('./src/lightScheduler');
+const { TimequbeHue } = require('./src/timequbeHue');
+const config = require('./config/default.json');
 
-const hueController = new HueController('', '');
-const lightScheduler = new LightScheduler(hueController);
-
-lightScheduler.schedule(25);
+const timequbeHue = new TimequbeHue(config.host, config.username);
+timequbeHue.schedule(25);
