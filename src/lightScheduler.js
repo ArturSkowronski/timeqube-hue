@@ -1,21 +1,20 @@
-exports.LightScheduler = class LightScheduler {
-  constructor(hueController) {
-    this.hueController = hueController;
-    this.counter = 0.0;
-  }
+exports.lightScheduler = intervalFn => (time) => {
+  const period = 1 / (time * 60);
+  setInterval(intervalFn(period).bind(this), 1000);
+};
 
-  schedule(time) {
-    const period = 1 / (time * 60);
-    const intervalObj = setInterval(() => {
-      const color = (1 - this.counter) * 120;
+exports.intervalLight = (hueFn) => {
+  let counter = 0.0;
 
-      this.hueController.setLight(color);
-      this.counter += period;
+  return period => () => {
+    const color = (1 - counter) * 120;
 
-      if (this.counter > 1) {
-        clearInterval(intervalObj);
-        console.log("I'm off");
-      }
-    }, 1000);
-  }
+    hueFn(color);
+    counter += period;
+
+    if (counter > 1) {
+      clearInterval(this);
+      console.log("I'm off");
+    }
+  };
 };

@@ -1,5 +1,9 @@
-const { TimequbeHue } = require('./src/timequbeHue');
+const { schedule } = require('./src/timequbeHue');
 const config = require('./config/default.json');
+const { hueLight } = require('./src/hueController');
+const { lightScheduler, intervalLight } = require('./src/lightScheduler');
+const { HueApi, lightState } = require('node-hue-api');
 
-const timequbeHue = new TimequbeHue(config.host, config.username);
-timequbeHue.schedule(25);
+const api = new HueApi(config.host, config.username);
+
+schedule(25, lightScheduler(intervalLight(hueLight(api, lightState))));
