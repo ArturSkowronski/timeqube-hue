@@ -1,4 +1,4 @@
-exports.hueLight = (hueApi, lightState) => (color) => {
+exports.hueLight = ({ hueApi, lightState }) => (color) => {
   const state = lightState
     .create()
     .hsl(color, 100, 50);
